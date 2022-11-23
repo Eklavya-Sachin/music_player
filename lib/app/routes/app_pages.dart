@@ -20,7 +20,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.LIBRARY,
-      page: () => const LibraryView(),
+      page: () =>  const LibraryView(),
       binding: LibraryBinding(),
     ),
   ];
