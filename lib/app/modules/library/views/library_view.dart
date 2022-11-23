@@ -1,4 +1,4 @@
-import 'package:audioplayer/audioplayer.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:musically/app/modules/library/views/modals/custom_list_tile.dart';
 
@@ -88,14 +88,14 @@ class _LibraryViewState extends State<LibraryView> {
   Future<void> playMusic(String url) async {
     if (isPlaying && currentMusic != url) {
       audioPlayer.pause();
-      Future<void> result = audioPlayer.play(url);
+      Future<void> result = audioPlayer.play as Future<void>;
       if (result == 1) {
         setState(() {
           currentMusic == url;
         });
       }
     } else if (!isPlaying) {
-      var result = audioPlayer.play(url);
+      var result = audioPlayer.play;
       if (result == 1) {
         setState(() {
           isPlaying = true;
