@@ -10,7 +10,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.LIBRARY;
+  static const INITIAL = Routes.REELS;
 
   static final routes = [
     GetPage(
@@ -20,7 +20,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.LIBRARY,
-      page: () =>  const LibraryView(),
+      page: () => const LibraryView(),
       binding: LibraryBinding(),
     ),
   ];

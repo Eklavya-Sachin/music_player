@@ -1,4 +1,4 @@
-import 'package:audioplayers/audioplayers.dart';
+import 'package:audioplayer/audioplayer.dart';
 import 'package:flutter/material.dart';
 import 'package:musically/app/modules/library/views/modals/custom_list_tile.dart';
 
@@ -14,23 +14,22 @@ class _LibraryViewState extends State<LibraryView> {
     {
       "title": "Uptown Funk",
       "singer": "One Republic",
-      "url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
-      "image":
-          "https://img.mensxp.com/media/content/2020/Apr/Leading-B-Wood-Singers-Who-Lost-On-Reality-Shows8_5ea7d4f04e41e.jpeg",
+      "url": "https://www.youtube.com/watch?v=OPf0YbXqDm0",
+      "image": "https://wallpapercave.com/wp/wp10380182.jpg",
     },
     {
       "title": "Black Space",
       "singer": "Sia",
       "url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
       "image":
-          "https://img.mensxp.com/media/content/2020/Apr/Leading-B-Wood-Singers-Who-Lost-On-Reality-Shows10_5ea7d51d28f24.jpeg",
+          "https://i.pinimg.com/originals/22/40/f6/2240f670fa922717d837b25f298471e4.jpg",
     },
     {
       "title": "Shake it off",
       "singer": "Coldplay",
       "url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
       "image":
-          "https://img.mensxp.com/media/content/2020/Apr/Leading-B-Wood-Singers-Who-Lost-On-Reality-Shows2_5ea7d47403432.jpeg",
+          "https://ichef.bbci.co.uk/news/976/cpsprodpb/C04C/production/_123882294_cb777976-6822-4327-a30a-038de067f761.jpg.webp",
     },
     {
       "title": "Lean On",
@@ -44,14 +43,14 @@ class _LibraryViewState extends State<LibraryView> {
       "singer": "Adele",
       "url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3",
       "image":
-          "https://img.mensxp.com/media/content/2020/Apr/Leading-B-Wood-Singers-Who-Lost-On-Reality-Shows7_5ea7d4db364a2.jpeg",
+          "https://media.istockphoto.com/id/1214887475/photo/salt-glass-salt-shaker-on-dark-stone-table-a-pile-of-salt-top-view-and-wooden-bowl.jpg?s=612x612&w=is&k=20&c=zBoOiYjBR5vhfDIaOmmz0tUi0gnw0fZGvnimwuRzCIo=",
     },
     {
       "title": "Believer",
       "singer": "Ed Sheeran",
       "url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3",
       "image":
-          "https://img.mensxp.com/media/content/2020/Apr/Leading-B-Wood-Singers-Who-Lost-On-Reality-Shows6_5ea7d4c7225c1.jpeg",
+          "https://ichef.bbci.co.uk/news/976/cpsprodpb/F382/production/_123883326_852a3a31-69d7-4849-81c7-8087bf630251.jpg.webp",
     },
     {
       "title": "Stressed out",
@@ -86,13 +85,20 @@ class _LibraryViewState extends State<LibraryView> {
   AudioPlayer audioPlayer = AudioPlayer();
   bool isPlaying = false;
   String currentMusic = "";
-  void playMusic(String url) async {
+  Future<void> playMusic(String url) async {
     if (isPlaying && currentMusic != url) {
       audioPlayer.pause();
-      var result = audioPlayer.play;
+      Future<void> result = audioPlayer.play(url);
       if (result == 1) {
         setState(() {
           currentMusic == url;
+        });
+      }
+    } else if (!isPlaying) {
+      var result = audioPlayer.play(url);
+      if (result == 1) {
+        setState(() {
+          isPlaying = true;
         });
       }
     }
@@ -156,7 +162,9 @@ class _LibraryViewState extends State<LibraryView> {
                     ? ListView.builder(
                         itemBuilder: (context, index) => customListTile(
                           title: musicList[index]["title"],
-                          onTap: () {},
+                          onTap: () {
+                            playMusic(musicList[index]["url"]);
+                          },
                           singer: musicList[index]['singer'],
                           image: musicList[index]['image'],
                           url: musicList[index]['url'],
