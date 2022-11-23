@@ -1,6 +1,6 @@
-import 'package:audioplayers/audioplayers.dart';
+// import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:musically/app/modules/library/views/modals/custom_list_tile.dart';
+import 'package:musically/app/modules/library/views/components/song_details_list_tile.dart';
 
 class LibraryView extends StatefulWidget {
   const LibraryView({super.key});
@@ -29,7 +29,7 @@ class _LibraryViewState extends State<LibraryView> {
       "singer": "Coldplay",
       "url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
       "image":
-          "https://ichef.bbci.co.uk/news/976/cpsprodpb/C04C/production/_123882294_cb777976-6822-4327-a30a-038de067f761.jpg.webp",
+          "https://assets-prd.ignimgs.com/2021/09/09/jujutsu-1631147389461.jpg",
     },
     {
       "title": "Lean On",
@@ -50,7 +50,7 @@ class _LibraryViewState extends State<LibraryView> {
       "singer": "Ed Sheeran",
       "url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3",
       "image":
-          "https://ichef.bbci.co.uk/news/976/cpsprodpb/F382/production/_123883326_852a3a31-69d7-4849-81c7-8087bf630251.jpg.webp",
+          "https://ichef.bbci.co.uk/news/976/cpsprodpb/F382/production/_123883326_852a3a31-69d7-4849-81c7-8087bf630251.jpg",
     },
     {
       "title": "Stressed out",
@@ -82,27 +82,27 @@ class _LibraryViewState extends State<LibraryView> {
     },
   ];
 
-  AudioPlayer audioPlayer = AudioPlayer();
-  bool isPlaying = false;
-  String currentMusic = "";
-  Future<void> playMusic(String url) async {
-    if (isPlaying && currentMusic != url) {
-      audioPlayer.pause();
-      Future<void> result = audioPlayer.play as Future<void>;
-      if (result == 1) {
-        setState(() {
-          currentMusic == url;
-        });
-      }
-    } else if (!isPlaying) {
-      var result = audioPlayer.play;
-      if (result == 1) {
-        setState(() {
-          isPlaying = true;
-        });
-      }
-    }
-  }
+  // AudioPlayer audioPlayer = AudioPlayer();
+  // bool isPlaying = false;
+  // String currentMusic = "";
+  // Future<void> playMusic(String url) async {
+  //   if (isPlaying && currentMusic != url) {
+  //     audioPlayer.pause();
+  //     Future<void> result = audioPlayer.play as Future<void>;
+  //     if (result == 1) {
+  //       setState(() {
+  //         currentMusic == url;
+  //       });
+  //     }
+  //   } else if (!isPlaying) {
+  //     var result = audioPlayer.play;
+  //     if (result == 1) {
+  //       setState(() {
+  //         isPlaying = true;
+  //       });
+  //     }
+  //   }
+  // }
 
   List<Map<String, dynamic>> foundMusic = [];
   @override
@@ -160,25 +160,18 @@ class _LibraryViewState extends State<LibraryView> {
               Expanded(
                 child: foundMusic.isNotEmpty
                     ? ListView.builder(
-                        itemBuilder: (context, index) => customListTile(
-                          title: musicList[index]["title"],
-                          onTap: () {
-                            playMusic(musicList[index]["url"]);
-                          },
-                          singer: musicList[index]['singer'],
-                          image: musicList[index]['image'],
-                          url: musicList[index]['url'],
+                        itemBuilder: (context, index) => SongDetailsListTile(
+                          songDetails: foundMusic[index],
                         ),
-                        itemCount: musicList.length,
+                        itemCount: foundMusic.length,
                       )
                     : const Center(
                         child: Text(
-                          "No Song Found",
+                          "No Songs Found!",
                           style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
                       ),
               ),
-              Container()
             ],
           ),
         ),
@@ -188,20 +181,20 @@ class _LibraryViewState extends State<LibraryView> {
 
   Widget searchBar() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 6.0),
       child: TextField(
         style: const TextStyle(color: Colors.white),
         onChanged: (value) => _runFilter(value),
         decoration: InputDecoration(
           filled: true,
-          fillColor: const Color(0xff4c516d),
+          fillColor: const Color.fromARGB(119, 68, 72, 86),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
+            borderRadius: BorderRadius.circular(16),
             borderSide: BorderSide.none,
           ),
           // prefixIconConstraints: ,
           suffixIcon: const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30),
+            padding: EdgeInsets.symmetric(horizontal: 15),
             child: Icon(
               Icons.search,
               color: Colors.white,
@@ -209,7 +202,7 @@ class _LibraryViewState extends State<LibraryView> {
             ),
           ),
           hintText: "Search Music",
-          hintStyle: const TextStyle(fontSize: 20.0, color: Colors.white),
+          hintStyle: const TextStyle(fontSize: 17, color: Colors.white),
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
         ),
